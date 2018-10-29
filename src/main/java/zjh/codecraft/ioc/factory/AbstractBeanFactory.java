@@ -1,41 +1,38 @@
-package zjh.codecraft.ioc;
+package zjh.codecraft.ioc.factory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import zjh.codecraft.ioc.BeanDefinition;
+
 /**
  * @author zhengjianhui on 10/29/18
  */
-public class BeanFactory {
+public abstract class AbstractBeanFactory implements BeanFactory {
 
     /**
      * Bean 存储
      */
     private Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap();
 
-    /**
-     * 获取 bean
-     *
-     * @param name bena name
-     */
     public Object getBean(String name) {
         BeanDefinition beanDefinition = beanDefinitions.get(name);
         if (beanDefinition == null) {
             return null;
         }
 
-        return beanDefinition.getBean();
+        return doCreate(beanDefinition);
     }
 
-    /**
-     * 注册 bean 到存储
-     *
-     * @param name           bean key
-     * @param beanDefinition bean value
-     */
     public void registerBean(String name, BeanDefinition beanDefinition) {
         beanDefinitions.put(name, beanDefinition);
     }
 
+    /**
+     * 初始化 bean
+     * @param beanDefinition
+     * @return
+     */
+    protected abstract Object doCreate(BeanDefinition beanDefinition);
 
 }
