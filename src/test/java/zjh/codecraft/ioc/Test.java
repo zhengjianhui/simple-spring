@@ -9,7 +9,7 @@ import zjh.codecraft.ioc.factory.BeanFactory;
 public class Test {
 
     @org.junit.Test
-    public void test() {
+    public void test() throws Exception {
         BeanDefinition definition = new BeanDefinition();
         definition.setBeanClassName("zjh.codecraft.ioc.TestBean");
 

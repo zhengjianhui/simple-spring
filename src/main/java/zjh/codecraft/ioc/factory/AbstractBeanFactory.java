@@ -15,7 +15,8 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      */
     private Map<String, BeanDefinition> beanDefinitions = new ConcurrentHashMap();
 
-    public Object getBean(String name) {
+    @Override
+    public Object getBean(String name) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         BeanDefinition beanDefinition = beanDefinitions.get(name);
         if (beanDefinition == null) {
             return null;
@@ -24,6 +25,7 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return doCreate(beanDefinition);
     }
 
+    @Override
     public void registerBean(String name, BeanDefinition beanDefinition) {
         beanDefinitions.put(name, beanDefinition);
     }
@@ -33,6 +35,6 @@ public abstract class AbstractBeanFactory implements BeanFactory {
      * @param beanDefinition
      * @return
      */
-    protected abstract Object doCreate(BeanDefinition beanDefinition);
+    protected abstract Object doCreate(BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException;
 
 }

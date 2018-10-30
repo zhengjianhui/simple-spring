@@ -1,6 +1,9 @@
 package zjh.codecraft.ioc.factory;
 
+import java.lang.reflect.Field;
+
 import zjh.codecraft.ioc.BeanDefinition;
+import zjh.codecraft.ioc.PropertyValue;
 
 /**
  * 将创建 bean 的工作委托给该类实现
@@ -10,20 +13,20 @@ import zjh.codecraft.ioc.BeanDefinition;
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
     @Override
-    protected Object doCreate(BeanDefinition beanDefinition) {
-        Object obj = null;
+    protected Object doCreate(BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException {
         if (beanDefinition.getBean() != null) {
             return beanDefinition.getBean();
         }
 
-        try {
-            obj = beanDefinition.getBeanClass().newInstance();
-            beanDefinition.setBean(obj);
+        Object obj = beanDefinition.getBeanClass().newInstance();
+        beanDefinition.setBean(obj);
 
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        if (beanDefinition.getPropertyValues() != null && beanDefinition.getPropertyValues().getPropertyValues().size() != 0) {
+            for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
+                Field field = obj.getClass().getDeclaredField(propertyValue.getName());
+                field.setAccessible(true);
+                field.set(obj, propertyValue.getValue());
+            }
         }
 
         return obj;

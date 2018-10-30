@@ -12,10 +12,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import zjh.codecraft.ioc.AbstractBeanDefinitionReader;
 import zjh.codecraft.ioc.BeanDefinition;
+import zjh.codecraft.ioc.PropertyValue;
 import zjh.codecraft.ioc.io.ResourceLoader;
 
 /**
  * 解析 xml
+ *
  * @author yihua.huang@dianping.com
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
@@ -70,10 +72,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         for (int i = 0; i < propertyNode.getLength(); i++) {
             Node node = propertyNode.item(i);
             if (node instanceof Element) {
-//                Element propertyEle = (Element) node;
-//                String name = propertyEle.getAttribute("name");
-//                String value = propertyEle.getAttribute("value");
-//                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name,value));
+                Element propertyEle = (Element) node;
+                String name = propertyEle.getAttribute("name");
+                String value = propertyEle.getAttribute("value");
+                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
             }
         }
     }

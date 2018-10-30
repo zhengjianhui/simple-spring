@@ -20,7 +20,16 @@ public class BeanDefinition {
      */
     private String beanClassName;
 
+    /**
+     * 属性值, 对解析属性的封装
+     */
+    private PropertyValues propertyValues = new PropertyValues();
+
     public BeanDefinition() {
+    }
+
+    public PropertyValues getPropertyValues() {
+        return propertyValues;
     }
 
     public void setBean(Object bean) {

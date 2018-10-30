@@ -5,7 +5,13 @@ package zjh.codecraft.ioc;
  */
 public class TestBean {
 
+    private String test;
+
     public void test() {
-        System.out.println("test");
+        System.out.println(test);
+    }
+
+    public void setTest(String test) {
+        this.test = test;
     }
 }
