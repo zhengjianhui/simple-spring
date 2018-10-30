@@ -8,12 +8,12 @@ import zjh.codecraft.ioc.io.ResourceLoader;
 
 /**
  * 从配置中读取BeanDefinitionReader
- * 
+ *
  * @author yihua.huang@dianping.com
  */
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
 
-    private Map<String,BeanDefinition> registry;
+    private Map<String, BeanDefinition> registry;
 
     private ResourceLoader resourceLoader;
 

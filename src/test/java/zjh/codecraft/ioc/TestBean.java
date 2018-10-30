@@ -7,11 +7,17 @@ public class TestBean {
 
     private String test;
 
+    private TestOutBean testOutBean;
+
     public void test() {
-        System.out.println(test);
+        testOutBean.test(this.test);
     }
 
     public void setTest(String test) {
         this.test = test;
+    }
+
+    public void setTestOutBean(TestOutBean testOutBean) {
+        this.testOutBean = testOutBean;
     }
 }

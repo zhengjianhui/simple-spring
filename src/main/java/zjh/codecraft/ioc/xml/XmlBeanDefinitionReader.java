@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import zjh.codecraft.ioc.AbstractBeanDefinitionReader;
 import zjh.codecraft.ioc.BeanDefinition;
+import zjh.codecraft.ioc.BeanReference;
 import zjh.codecraft.ioc.PropertyValue;
 import zjh.codecraft.ioc.io.ResourceLoader;
 
@@ -75,7 +76,21 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 Element propertyEle = (Element) node;
                 String name = propertyEle.getAttribute("name");
                 String value = propertyEle.getAttribute("value");
-                beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
+
+                if (value != null && value.length() != 0) {
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, value));
+
+                } else {
+                    String ref = propertyEle.getAttribute("ref");
+                    if (ref == null || ref.length() == 0) {
+                        throw new IllegalArgumentException("Configuration problem: <property> element for property '"
+                                + name + "' must specify a ref or value");
+                    }
+
+                    beanDefinition.getPropertyValues().addPropertyValue(new PropertyValue(name, new BeanReference(ref)));
+                }
+
+
             }
         }
     }

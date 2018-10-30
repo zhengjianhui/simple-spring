@@ -25,6 +25,7 @@ public class BeanDefinition {
      */
     private PropertyValues propertyValues = new PropertyValues();
 
+
     public BeanDefinition() {
     }
 

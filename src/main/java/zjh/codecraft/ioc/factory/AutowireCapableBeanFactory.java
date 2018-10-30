@@ -3,6 +3,7 @@ package zjh.codecraft.ioc.factory;
 import java.lang.reflect.Field;
 
 import zjh.codecraft.ioc.BeanDefinition;
+import zjh.codecraft.ioc.BeanReference;
 import zjh.codecraft.ioc.PropertyValue;
 
 /**
@@ -25,7 +26,15 @@ public class AutowireCapableBeanFactory extends AbstractBeanFactory {
             for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
                 Field field = obj.getClass().getDeclaredField(propertyValue.getName());
                 field.setAccessible(true);
-                field.set(obj, propertyValue.getValue());
+
+                // 如果有依赖注入, 则先实例化依赖, property 中同时封装了 BeanReference
+                Object value = propertyValue.getValue();
+                if(value instanceof BeanReference) {
+                    BeanReference beanReference = (BeanReference) value;
+                    value = getBean(beanReference.getName());
+                }
+
+                field.set(obj, value);
             }
         }
 
