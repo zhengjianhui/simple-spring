@@ -1,4 +1,4 @@
-package zjh.codecraft.ioc.io;
+package zjh.codecraft.ioc.beans.io;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package zjh.codecraft.ioc;
+package zjh.codecraft.ioc.beans;
 
 /**
  * @author zhengjianhui on 10/30/18

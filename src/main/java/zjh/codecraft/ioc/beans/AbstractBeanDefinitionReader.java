@@ -1,9 +1,9 @@
-package zjh.codecraft.ioc;
+package zjh.codecraft.ioc.beans;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import zjh.codecraft.ioc.io.ResourceLoader;
+import zjh.codecraft.ioc.beans.io.ResourceLoader;
 
 
 /**

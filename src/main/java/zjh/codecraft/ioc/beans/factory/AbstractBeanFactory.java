@@ -1,12 +1,13 @@
-package zjh.codecraft.ioc.factory;
+package zjh.codecraft.ioc.beans.factory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import zjh.codecraft.ioc.BeanDefinition;
+import zjh.codecraft.ioc.beans.BeanDefinition;
 
 /**
  * bean 的创建
+ *
  * @author zhengjianhui on 10/29/18
  */
 public abstract class AbstractBeanFactory implements BeanFactory {
@@ -26,15 +27,21 @@ public abstract class AbstractBeanFactory implements BeanFactory {
         return doCreate(beanDefinition);
     }
 
-    @Override
+    /**
+     * 注册 bean 到存储
+     *
+     * @param name bean key
+     * @param mbd  bean value
+     */
     public void registerBean(String name, BeanDefinition mbd) {
         beanDefinitions.put(name, mbd);
     }
 
     /**
      * 初始化 bean
-     * @param mbd
-     * @return
+     *
+     * @param mbd matedata
+     * @return Object
      */
     protected abstract Object doCreate(BeanDefinition mbd) throws Exception;
 

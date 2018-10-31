@@ -1,4 +1,4 @@
-package zjh.codecraft.ioc;
+package zjh.codecraft.ioc.beans;
 
 import java.util.ArrayList;
 import java.util.List;

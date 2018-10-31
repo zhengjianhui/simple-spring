@@ -1,6 +1,4 @@
-package zjh.codecraft.ioc.factory;
-
-import zjh.codecraft.ioc.BeanDefinition;
+package zjh.codecraft.ioc.beans.factory;
 
 /**
  * @author zhengjianhui on 10/29/18
@@ -15,11 +13,4 @@ public interface BeanFactory {
      */
     Object getBean(String name) throws Exception;
 
-    /**
-     * 注册 bean 到存储
-     *
-     * @param name           bean key
-     * @param beanDefinition bean value
-     */
-    void registerBean(String name, BeanDefinition beanDefinition);
 }

@@ -1,4 +1,4 @@
-package zjh.codecraft.ioc;
+package zjh.codecraft.ioc.beans;
 
 /**
  * 解析 xml

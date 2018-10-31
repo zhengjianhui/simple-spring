@@ -1,4 +1,4 @@
-package zjh.codecraft.ioc.xml;
+package zjh.codecraft.ioc.beans.xml;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,11 +10,11 @@ import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import zjh.codecraft.ioc.AbstractBeanDefinitionReader;
-import zjh.codecraft.ioc.BeanDefinition;
-import zjh.codecraft.ioc.BeanReference;
-import zjh.codecraft.ioc.PropertyValue;
-import zjh.codecraft.ioc.io.ResourceLoader;
+import zjh.codecraft.ioc.beans.AbstractBeanDefinitionReader;
+import zjh.codecraft.ioc.beans.BeanDefinition;
+import zjh.codecraft.ioc.beans.BeanReference;
+import zjh.codecraft.ioc.beans.PropertyValue;
+import zjh.codecraft.ioc.beans.io.ResourceLoader;
 
 /**
  * 解析 xml

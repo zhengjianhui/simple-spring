@@ -1,10 +1,10 @@
-package zjh.codecraft.ioc.factory;
+package zjh.codecraft.ioc.beans.factory;
 
 import java.lang.reflect.Field;
 
-import zjh.codecraft.ioc.BeanDefinition;
-import zjh.codecraft.ioc.BeanReference;
-import zjh.codecraft.ioc.PropertyValue;
+import zjh.codecraft.ioc.beans.BeanDefinition;
+import zjh.codecraft.ioc.beans.BeanReference;
+import zjh.codecraft.ioc.beans.PropertyValue;
 
 /**
  * 将创建 bean 的工作委托给该类实现, 该类有 bean 自动注入的功能

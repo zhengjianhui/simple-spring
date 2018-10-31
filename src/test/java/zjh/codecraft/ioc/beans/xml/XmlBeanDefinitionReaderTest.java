@@ -1,12 +1,12 @@
-package zjh.codecraft.ioc.xml;
+package zjh.codecraft.ioc.beans.xml;
 
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
 
-import zjh.codecraft.ioc.BeanDefinition;
-import zjh.codecraft.ioc.io.ResourceLoader;
+import zjh.codecraft.ioc.beans.BeanDefinition;
+import zjh.codecraft.ioc.beans.io.ResourceLoader;
 
 /**
  * @author zhengjianhui on 10/29/18
