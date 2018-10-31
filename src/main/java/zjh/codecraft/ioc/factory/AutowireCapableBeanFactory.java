@@ -7,38 +7,46 @@ import zjh.codecraft.ioc.BeanReference;
 import zjh.codecraft.ioc.PropertyValue;
 
 /**
- * 将创建 bean 的工作委托给该类实现
+ * 将创建 bean 的工作委托给该类实现, 该类有 bean 自动注入的功能
  *
  * @author zhengjianhui on 10/29/18
  */
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
     @Override
-    protected Object doCreate(BeanDefinition beanDefinition) throws NoSuchFieldException, IllegalAccessException, InstantiationException {
-        if (beanDefinition.getBean() != null) {
-            return beanDefinition.getBean();
+    protected Object doCreate(BeanDefinition mbd) throws Exception {
+        if (mbd.getBean() != null) {
+            return mbd.getBean();
         }
 
-        Object obj = beanDefinition.getBeanClass().newInstance();
-        beanDefinition.setBean(obj);
+        Object bean = createBeanInstance(mbd);
+        applyPropertyValues(bean, mbd);
 
-        if (beanDefinition.getPropertyValues() != null && beanDefinition.getPropertyValues().getPropertyValues().size() != 0) {
-            for (PropertyValue propertyValue : beanDefinition.getPropertyValues().getPropertyValues()) {
-                Field field = obj.getClass().getDeclaredField(propertyValue.getName());
+        return bean;
+
+    }
+
+    protected Object createBeanInstance(BeanDefinition mbd) throws Exception {
+        return mbd.getBeanClass().newInstance();
+    }
+
+    protected void applyPropertyValues(Object bean, BeanDefinition mbd) throws Exception {
+        if (mbd.getPropertyValues() != null && mbd.getPropertyValues().getPropertyValues().size() != 0) {
+            for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValues()) {
+                Field field = bean.getClass().getDeclaredField(propertyValue.getName());
                 field.setAccessible(true);
 
                 // 如果有依赖注入, 则先实例化依赖, property 中同时封装了 BeanReference
                 Object value = propertyValue.getValue();
-                if(value instanceof BeanReference) {
+                if (value instanceof BeanReference) {
                     BeanReference beanReference = (BeanReference) value;
                     value = getBean(beanReference.getName());
                 }
 
-                field.set(obj, value);
+                field.set(bean, value);
+                mbd.setBean(bean);
             }
         }
-
-        return obj;
-
     }
+
 }
