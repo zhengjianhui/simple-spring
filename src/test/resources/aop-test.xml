@@ -10,12 +10,20 @@
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <bean name="testOutBeanImpl" class="zjh.codecraft.ioc.TestOutBeanImpl"/>
+    <bean id="testOutBean" class="zjh.codecraft.ioc.TestOutBeanImpl"/>
 
-    <bean name="test" class="zjh.codecraft.ioc.TestBeanImpl">
+    <bean id="test" class="zjh.codecraft.ioc.TestBeanImpl">
         <property name="test" value="Hello World!"/>
-        <property name="testOutBeanImpl" ref="testOutBeanImpl"/>
+        <property name="testOutBean" ref="testOutBean"/>
     </bean>
 
+    <bean id="timeInterceptor" class="zjh.codecraft.ioc.aop.TimerInterceptor"></bean>
+
+    <bean id="autoProxyCreator" class="zjh.codecraft.ioc.aop.cut.AspectJAwareAdvisorAutoProxyCreator"></bean>
+
+    <bean id="aspectjAspect" class="zjh.codecraft.ioc.aop.cut.AspectJExpressionPointcutAdvisor">
+        <property name="advice" ref="timeInterceptor"></property>
+        <property name="expression" value="execution(* zjh.codecraft.ioc..*.*(..))"></property>
+    </bean>
 
 </beans>

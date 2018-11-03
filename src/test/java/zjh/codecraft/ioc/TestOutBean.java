@@ -1,12 +1,9 @@
 package zjh.codecraft.ioc;
 
 /**
- * @author zhengjianhui on 10/29/18
+ * @author zhengjianhui on 11/2/18
  */
-public class TestOutBean {
+public interface TestOutBean {
 
-    public void test(String msg) {
-        System.out.println(msg);
-    }
-
+    void test(String msg);
 }

@@ -8,6 +8,7 @@ import java.lang.reflect.Proxy;
 
 /**
  * InvocationHandler aop 动态代理实现
+ *
  * @author zhengjianhui on 10/31/18
  */
 public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
@@ -20,8 +21,8 @@ public class JdkDynamicAopProxy implements AopProxy, InvocationHandler {
 
     @Override
     public Object getProxy() {
-        return Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { advised.getTargetSource()
-                .getTargetClass() }, this);
+        return Proxy.newProxyInstance(getClass().getClassLoader(), advised.getTargetSource()
+                .getInterfaces(), this);
     }
 
     @Override

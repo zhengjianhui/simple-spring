@@ -16,9 +16,16 @@ public class TargetSource {
      */
     private Object target;
 
-    public TargetSource(Class targetClass, Object target) {
+    /**
+     * 这边获取接口, 用于 jdk 动态代理
+     * 目标对象所实现的所有接口
+     */
+    private Class<?>[] interfaces;
+
+    public TargetSource(Class targetClass, Object target, Class<?>[] interfaces) {
         this.targetClass = targetClass;
         this.target = target;
+        this.interfaces = interfaces;
     }
 
     public Class getTargetClass() {
@@ -29,4 +36,7 @@ public class TargetSource {
         return target;
     }
 
+    public Class<?>[] getInterfaces() {
+        return interfaces;
+    }
 }

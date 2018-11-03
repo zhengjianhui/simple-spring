@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import zjh.codecraft.ioc.TestBean;
+import zjh.codecraft.ioc.TestBeanImpl;
 import zjh.codecraft.ioc.aop.cut.AspectJExpressionPointcut;
 
 /**
@@ -21,7 +21,7 @@ public class AspectJExpressionPointcutTest {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression(expression);
 
-        boolean flag = pointcut.getClassFilter().matches(TestBean.class);
+        boolean flag = pointcut.getClassFilter().matches(TestBeanImpl.class);
         Assert.assertTrue(flag);
 
     }
@@ -30,8 +30,8 @@ public class AspectJExpressionPointcutTest {
     public void methodTest() throws NoSuchMethodException {
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression(expression);
-        Method method = TestBean.class.getDeclaredMethod("test");
-        boolean flag = pointcut.getMethodMatcher().matches(method, TestBean.class);
+        Method method = TestBeanImpl.class.getDeclaredMethod("test");
+        boolean flag = pointcut.getMethodMatcher().matches(method, TestBeanImpl.class);
         Assert.assertTrue(flag);
     }
 }

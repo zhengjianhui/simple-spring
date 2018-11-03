@@ -2,9 +2,9 @@ package zjh.codecraft.ioc.aop;
 
 import org.junit.Test;
 
-import zjh.codecraft.ioc.ITestBean;
 import zjh.codecraft.ioc.TestBean;
-import zjh.codecraft.ioc.TestOutBean;
+import zjh.codecraft.ioc.TestBeanImpl;
+import zjh.codecraft.ioc.TestOutBeanImpl;
 
 /**
  * @author zhengjianhui on 11/1/18
@@ -14,16 +14,18 @@ public class JdkDynamicAopProxyTest {
     @Test
     public void test() {
         // 准备源对象
-        TestBean testBean = new TestBean();
-        TestOutBean testOutBean = new TestOutBean();
-        testBean.setTest("测试 jdk aop 增强");
-        testBean.setTestOutBean(testOutBean);
+        TestBeanImpl testBeanImpl = new TestBeanImpl();
+        TestOutBeanImpl testOutBeanImpl = new TestOutBeanImpl();
+        testBeanImpl.setTest("测试 jdk aop 增强");
+        testBeanImpl.setTestOutBean(testOutBeanImpl);
 
         // 具体增强逻辑
         TimerInterceptor timerInterceptor = new TimerInterceptor();
 
         // 源对象封装
-        TargetSource targetSource = new TargetSource(ITestBean.class, testBean);
+        TargetSource targetSource = new TargetSource(TestBean.class, testBeanImpl, TestBean.class.getInterfaces());
+        // 需要接口, 直接用对象会报错 jdk 动态代理
+//        TargetSource targetSource = new TargetSource(testBeanImpl.getClass(), testBeanImpl);
 
         // AdvisedSupport
         AdvisedSupport advisedSupport = new AdvisedSupport();
@@ -32,7 +34,7 @@ public class JdkDynamicAopProxyTest {
 
         // 构建 JDK 代理对象
         JdkDynamicAopProxy jdkDynamicAopProxy = new JdkDynamicAopProxy(advisedSupport);
-        ITestBean proxyObj = (ITestBean) jdkDynamicAopProxy.getProxy();
+        TestBean proxyObj = (TestBean) jdkDynamicAopProxy.getProxy();
 
         proxyObj.test();
 

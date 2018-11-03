@@ -10,6 +10,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * 接口是为了抽象
+ * 类是为了复用
+ *
+ * 这个实现类的对象既可以看做 ClassFilter 也可以看做 MethodMatcher
+ * 而 Pointcut 抽象的两个方法获取 ClassFilter 与 MethodMatcher
+ * 本质是返回自己
+ *
+ * 在不同的地方有不同的样貌, 多态的美
+ *
  * @author zhengjianhui on 11/1/18
  */
 public class AspectJExpressionPointcut implements Pointcut, ClassFilter, MethodMatcher {

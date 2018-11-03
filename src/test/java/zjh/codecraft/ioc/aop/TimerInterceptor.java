@@ -10,11 +10,13 @@ public class TimerInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        System.out.println("代理增强开始, 时间为 :" + System.currentTimeMillis());
+         ReflectiveMethodInvocation r = (ReflectiveMethodInvocation) methodInvocation;
+
+        System.out.println("代理增强开始, 类名:" +  r.getThis().getClass().getName() + "--方法:"+ methodInvocation.getMethod().getName() + "--时间为 :" + System.currentTimeMillis());
 
         Object obj = methodInvocation.proceed();
 
-        System.out.println("代理增强结束, 时间为 :" + System.currentTimeMillis());
+        System.out.println("代理增强结束, 类名:" +  r.getThis().getClass().getName() + "--方法:"+ methodInvocation.getMethod().getName() + "--时间为 :" + System.currentTimeMillis());
 
         return obj;
     }

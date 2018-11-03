@@ -1,7 +1,9 @@
 package zjh.codecraft.ioc.beans.factory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
+import zjh.codecraft.ioc.BeanFactoryAware;
 import zjh.codecraft.ioc.beans.BeanDefinition;
 import zjh.codecraft.ioc.beans.BeanReference;
 import zjh.codecraft.ioc.beans.PropertyValue;
@@ -14,37 +16,35 @@ import zjh.codecraft.ioc.beans.PropertyValue;
 public class AutowireCapableBeanFactory extends AbstractBeanFactory {
 
     @Override
-    protected Object doCreate(BeanDefinition mbd) throws Exception {
-        if (mbd.getBean() != null) {
-            return mbd.getBean();
+    protected void applyPropertyValues(Object bean, BeanDefinition mbd) throws Exception {
+
+        // 如果实现 BeanFactoryAware 则将工厂注入
+        if (bean instanceof BeanFactoryAware) {
+            ((BeanFactoryAware) bean).setBeanFactory(this);
         }
 
-        Object bean = createBeanInstance(mbd);
-        applyPropertyValues(bean, mbd);
+        for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValues()) {
+            Object value = propertyValue.getValue();
 
-        return bean;
+            // 如果有依赖注入, 则先实例化依赖, property 中同时封装了 BeanReference
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getName());
+            }
 
-    }
+            // 尝试 set 注入, 如果注入失败则 成员注入
+            try {
 
-    protected Object createBeanInstance(BeanDefinition mbd) throws Exception {
-        return mbd.getBeanClass().newInstance();
-    }
+                Method declaredMethod = bean.getClass().getDeclaredMethod(
+                        "set" + propertyValue.getName().substring(0, 1).toUpperCase()
+                                + propertyValue.getName().substring(1), value.getClass());
+                declaredMethod.setAccessible(true);
 
-    protected void applyPropertyValues(Object bean, BeanDefinition mbd) throws Exception {
-        if (mbd.getPropertyValues() != null && mbd.getPropertyValues().getPropertyValues().size() != 0) {
-            for (PropertyValue propertyValue : mbd.getPropertyValues().getPropertyValues()) {
-                Field field = bean.getClass().getDeclaredField(propertyValue.getName());
-                field.setAccessible(true);
-
-                // 如果有依赖注入, 则先实例化依赖, property 中同时封装了 BeanReference
-                Object value = propertyValue.getValue();
-                if (value instanceof BeanReference) {
-                    BeanReference beanReference = (BeanReference) value;
-                    value = getBean(beanReference.getName());
-                }
-
-                field.set(bean, value);
-                mbd.setBean(bean);
+                declaredMethod.invoke(bean, value);
+            } catch (NoSuchMethodException e) {
+                Field declaredField = bean.getClass().getDeclaredField(propertyValue.getName());
+                declaredField.setAccessible(true);
+                declaredField.set(bean, value);
             }
         }
     }

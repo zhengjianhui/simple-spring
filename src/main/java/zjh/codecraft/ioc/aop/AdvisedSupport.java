@@ -2,6 +2,8 @@ package zjh.codecraft.ioc.aop;
 
 import org.aopalliance.intercept.MethodInterceptor;
 
+import zjh.codecraft.ioc.aop.cut.MethodMatcher;
+
 /**
  * 持有 aop 的元数据
  * @author zhengjianhui on 10/31/18
@@ -19,6 +21,11 @@ public class AdvisedSupport {
      */
     private MethodInterceptor methodInterceptor;
 
+    /**
+     * 方法匹配
+     */
+    private MethodMatcher methodMatcher;
+
     public TargetSource getTargetSource() {
         return targetSource;
     }
@@ -33,5 +40,13 @@ public class AdvisedSupport {
 
     public void setMethodInterceptor(MethodInterceptor methodInterceptor) {
         this.methodInterceptor = methodInterceptor;
+    }
+
+    public MethodMatcher getMethodMatcher() {
+        return methodMatcher;
+    }
+
+    public void setMethodMatcher(MethodMatcher methodMatcher) {
+        this.methodMatcher = methodMatcher;
     }
 }
