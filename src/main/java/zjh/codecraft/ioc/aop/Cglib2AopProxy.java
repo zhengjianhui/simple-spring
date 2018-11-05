@@ -8,6 +8,9 @@ import java.lang.reflect.Method;
 
 /**
  * cglib 代理对应  JdkDynamicAopProxy 代理
+ * cglib 用的是字节码直接生成代理类的一个子类, 所以类不能声明为 final
+ * 并且和继承一样, 拥有继承的优势和限制
+ *
  * @author zhengjianhui on 11/3/18
  */
 public class Cglib2AopProxy extends AbstractAopProxy {

@@ -7,7 +7,7 @@ public class TestBeanImpl implements TestBean {
 
     private String test;
 
-    private TestOutBean testOutBean;
+    private TestOutBeanImpl testOutBean;
 
     public void test() {
         testOutBean.test(this.test);
@@ -17,7 +17,7 @@ public class TestBeanImpl implements TestBean {
         this.test = test;
     }
 
-    public void setTestOutBean(TestOutBean testOutBean) {
+    public void setTestOutBean(TestOutBeanImpl testOutBean) {
         this.testOutBean = testOutBean;
     }
 }
