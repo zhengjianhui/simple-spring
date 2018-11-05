@@ -6,8 +6,7 @@ import java.util.List;
 
 import zjh.codecraft.ioc.BeanFactoryAware;
 import zjh.codecraft.ioc.BeanPostProcessor;
-import zjh.codecraft.ioc.aop.AdvisedSupport;
-import zjh.codecraft.ioc.aop.JdkDynamicAopProxy;
+import zjh.codecraft.ioc.aop.ProxyFactory;
 import zjh.codecraft.ioc.aop.TargetSource;
 import zjh.codecraft.ioc.beans.factory.AbstractBeanFactory;
 import zjh.codecraft.ioc.beans.factory.BeanFactory;
@@ -51,15 +50,24 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanFactoryAware, Be
         for (AspectJExpressionPointcutAdvisor advisor : advisors) {
             // 判断类是否符合加强逻辑
             if (advisor.getPointcut().getClassFilter().matches(bean.getClass())) {
-                AdvisedSupport advisedSupport = new AdvisedSupport();
-                // 注入切面
-                advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
-                // 注入方法匹配
-                advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
-                // 注入源对象
-                advisedSupport.setTargetSource(new TargetSource(bean.getClass(), bean, bean.getClass().getInterfaces()));
+//                AdvisedSupport advisedSupport = new AdvisedSupport();
+//                // 注入切面
+//                advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+//                // 注入方法匹配
+//                advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+//                // 注入源对象
+//                advisedSupport.setTargetSource(new TargetSource(bean.getClass(), bean, bean.getClass().getInterfaces()));
+//
+//                return new JdkDynamicAopProxy(advisedSupport).getProxy();
 
-                return new JdkDynamicAopProxy(advisedSupport).getProxy();
+                ProxyFactory advisedSupport = new ProxyFactory();
+                advisedSupport.setMethodInterceptor((MethodInterceptor) advisor.getAdvice());
+                advisedSupport.setMethodMatcher(advisor.getPointcut().getMethodMatcher());
+
+                TargetSource targetSource = new TargetSource(bean.getClass(), bean, bean.getClass().getInterfaces());
+                advisedSupport.setTargetSource(targetSource);
+
+                return advisedSupport.getProxy();
             }
         }
 
